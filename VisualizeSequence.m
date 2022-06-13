@@ -17,7 +17,7 @@ addpath(genpath('/Users/lbrown/Documents/PosfaiLab/Registration/HaydensReg2022/C
 addpath(genpath('/Users/lbrown/Documents/PosfaiLab/Registration/HaydensReg2022/CPD2/data'));
 
 time_str = strcat(string(firstTime),'_',string(lastTime));
-RegistrationFileName = strcat(data_path,'transforms', time_str,'Match.mat');
+RegistrationFileName = strcat(data_path,'transforms', time_str,'.mat');
 transforms = load(RegistrationFileName);
 
 hold on;
