@@ -1,8 +1,8 @@
 # SemiAutomaticLineageConstruction
 Matlab code to register sequences of label images and then verify and fix lineage tracks as needed
 
-PrecomputeRegistrationTransforms.m
+### PrecomputeRegistrationTransforms.m
   This code will find the registration transforms between pairs of adjacent frames from the label images output by the 3D Stardist instance segmentation. You will need to change the first few lines of this code to point to your label images and to set the first and last frame that you want to register. The outputs will be put in the same folder as your label images.
   
-VisualizeSequence.m
+### VisualizeSequence.m
   This code will create a video (.avi) file of the registered sequence using the outputs of the PrecomputeRegistrationTransforms. You can play this video using the open source VLC player.
