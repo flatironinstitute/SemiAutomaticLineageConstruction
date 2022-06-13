@@ -113,7 +113,7 @@ while time_index_index <= lastTime
     else
         fraction_of_selected_points = 1/40;
         % how many random orientations do you want - minimum.
-        maxItr = 500;
+        maxItr = 100;
     end
 
     find1 = find(combined_image1(:)~=0);  % this is the indices into combined_image1 to get indices into (X,Y,Z) to the full set of point
