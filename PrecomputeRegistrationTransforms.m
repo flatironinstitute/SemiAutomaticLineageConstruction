@@ -10,6 +10,7 @@ data_path = '/Users/lbrown/Documents/PosfaiLab/3DStardist/GataNanog/HaydenJan22S
 name_of_embryo =  'Stardist3D_klbOut_Cam_Long_';
 name_of_embryo = strcat(data_path,name_of_embryo);
 suffix_for_embryo = '.tif';
+suffix_for_embryo_alternative = '.lux_SegmentationCorrected.tif';
 
 addpath(genpath('/Users/lbrown/Documents/PosfaiLab/Registration/HaydensReg2022/CPD2/core'));
 addpath(genpath('/Users/lbrown/Documents/PosfaiLab/Registration/HaydensReg2022/CPD2/data'));
@@ -69,12 +70,17 @@ while time_index_index <= lastTime
 
     if (nRerun == 0)  % only read the first time
         % store combined image for both.
-        A = imread([name_of_embryo,num2str(time_index,'%05.5d'),suffix_for_embryo],1);
-        tiff_info = imfinfo([name_of_embryo,num2str(time_index,'%05.5d'),suffix_for_embryo]);
+        alt_full_name = [name_of_embryo,num2str(time_index,'%05.5d'),suffix_for_embryo_alternative];
+        full_name = [name_of_embryo,num2str(time_index,'%05.5d'),suffix_for_embryo];
+        if isfile(alt_full_name)
+            full_name = alt_full_name;
+        end
+        A = imread(full_name,1);
+        tiff_info = imfinfo(full_name);
         % combine all tiff stacks into 1 3D image.
         combined_image = zeros(size(A,1), size(A,2), size(tiff_info, 1));
         for j = 1:size(tiff_info, 1)
-            A = imread([name_of_embryo,num2str(time_index,'%05.5d'),suffix_for_embryo],j);
+            A = imread(full_name,j);
             combined_image(:,:,j) = A(:,:,1);
         end
         combined_image1 = combined_image;
@@ -84,13 +90,18 @@ while time_index_index <= lastTime
         reduceRatio = 1/4;
         combined_image1 = isotropicSample_nearest(double(combined_image1), resXY, resZ, reduceRatio);
         nNuclei = size(unique(combined_image1),1) - 1
-
-        A = imread([name_of_embryo,num2str(time_index_plus_1,'%05.5d'),suffix_for_embryo],1);
-        tiff_info = imfinfo([name_of_embryo,num2str(time_index_plus_1,'%05.5d'),suffix_for_embryo]);
+        
+        alt_full_name = [name_of_embryo,num2str(time_index_plus_1,'%05.5d'),suffix_for_embryo_alternative];
+        full_name = [name_of_embryo,num2str(time_index_plus_1,'%05.5d'),suffix_for_embryo];
+        if isfile(alt_full_name)
+            full_name = alt_full_name;
+        end
+        A = imread(full_name,1);
+        tiff_info = imfinfo(full_name);
         % combine all tiff stacks into 1 3D image.
         combined_image = zeros(size(A,1), size(A,2), size(tiff_info, 1));
         for j = 1:size(tiff_info, 1)
-            A = imread([name_of_embryo,num2str(time_index_plus_1,'%05.5d'),suffix_for_embryo],j);
+            A = imread(full_name,j);
             combined_image(:,:,j) = A(:,:,1);
         end
         combined_image2 = combined_image;
