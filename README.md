@@ -1,6 +1,8 @@
 # SemiAutomaticLineageConstruction
 Matlab code to register sequences of label images and then verify and fix lineage tracks as needed
 
+git clone https://github.com/flatironinstitute/SemiAutomaticLineageConstruction.git
+
 Start by installing CPD for matlab https://sites.google.com/site/myronenko/research/cpd You need to fill out the form, download the stuff, if you don't have it already, install Xcode on your mac (this can take hours) 
 
 ### PrecomputeRegistrationTransforms.m
