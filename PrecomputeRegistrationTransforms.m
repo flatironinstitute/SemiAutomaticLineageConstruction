@@ -304,7 +304,7 @@ while time_index_index <= lastTime
     % loop through all matches
     % LB: M is nMatches x 2 (label at time t, label at time t+1)  
 
-    for i = 1:length(M)
+    for i = 1:size(M,1)
         find_non_zero_please = find(iou_matrix(M(i,1),:));
         if (length(find_non_zero_please) > 1)  % more than one iou match
             if verbosemode
@@ -338,7 +338,7 @@ while time_index_index <= lastTime
             end
             for itest = 1: nlabels
                 bFound = false;
-                for imatch= 1:length(M)
+                for imatch= 1:size(M,1)
                     if (M(imatch,iImage) == itest)
                         bFound = true;
                     end
