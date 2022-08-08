@@ -16,3 +16,12 @@ Arguments:
     -e end frame
 
 An example is given in the run_MakeRegisteredImages.sh file
+
+By default the outputs are in the specified path for the label images under 
+registered_images
+registered_label_images
+MIP-Frames - this last directory has images which can be used to generate a Maximum Intensity Projection GIF
+of the registered raw images. You can use the program: MakeAnimatedGIF.py in the directory.
+
+The scale factor after registration is 0.832,0.832,0.832 microns
+
