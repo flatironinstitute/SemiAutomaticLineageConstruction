@@ -11,7 +11,7 @@ Arguments:
     -l path and name format for label images (klb or tif) - if file not found will look for corrected version
     -i path and name format for raw images (klb)
     -o path of for output - but if not found will use the path to the label images
-    -t name of transform file - needs to be json (see matlab code ConvertTransformsToJson.m to convert .mat to .json)
+    -t name of transform file - needs to be json (see matlab code ConvertTransformsToJson.m to convert .mat to .json) and should be in the label path directory
     -s start frame
     -e end frame
 
