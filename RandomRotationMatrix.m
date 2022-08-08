@@ -34,6 +34,6 @@ while  (ortho_error > 1e-9)
     end
     sav_ortho_error = ortho_error;
 end
-ntests
-ortho_error
+ntests;
+ortho_error;
 
