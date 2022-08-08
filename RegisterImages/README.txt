@@ -1,5 +1,5 @@
 
-MakeRegisteredImages
+## MakeRegisteredImages
 
 MakeRegisteredImages can be used to transform a sequence of raw and label images
 into a sequence of registered images using the transform output from the matlab
