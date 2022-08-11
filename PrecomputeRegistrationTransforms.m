@@ -70,46 +70,16 @@ while time_index_index <= lastTime
 
     if (nRerun == 0)  % only read the first time
         % store combined image for both.
-        alt_full_name = [name_of_embryo,num2str(time_index,'%05.5d'),suffix_for_embryo_alternative];
-        full_name = [name_of_embryo,num2str(time_index,'%05.5d'),suffix_for_embryo];
-        if isfile(alt_full_name)
-            full_name = alt_full_name;
-        end
-        A = imread(full_name,1);
-        tiff_info = imfinfo(full_name);
-        % combine all tiff stacks into 1 3D image.
-        combined_image = zeros(size(A,1), size(A,2), size(tiff_info, 1));
-        for j = 1:size(tiff_info, 1)
-            A = imread(full_name,j);
-            combined_image(:,:,j) = A(:,:,1);
-        end
-        combined_image1 = combined_image;
-
-        resXY = 0.208;
-        resZ = 2.0;
-        reduceRatio = 1/4;
-        combined_image1 = isotropicSample_nearest(double(combined_image1), resXY, resZ, reduceRatio);
-        nNuclei = size(unique(combined_image1),1) - 1
-        
-        alt_full_name = [name_of_embryo,num2str(time_index_plus_1,'%05.5d'),suffix_for_embryo_alternative];
-        full_name = [name_of_embryo,num2str(time_index_plus_1,'%05.5d'),suffix_for_embryo];
-        if isfile(alt_full_name)
-            full_name = alt_full_name;
-        end
-        A = imread(full_name,1);
-        tiff_info = imfinfo(full_name);
-        % combine all tiff stacks into 1 3D image.
-        combined_image = zeros(size(A,1), size(A,2), size(tiff_info, 1));
-        for j = 1:size(tiff_info, 1)
-            A = imread(full_name,j);
-            combined_image(:,:,j) = A(:,:,1);
-        end
-        combined_image2 = combined_image;
-
-        resXY = 0.208;
-        resZ = 2.0;
-        reduceRatio = 1/4;
-        combined_image2 = isotropicSample_nearest(double(combined_image2), resXY, resZ, reduceRatio);
+        combined_image1 = read_embryo_frame(name_of_embryo, ...
+            suffix_for_embryo_alternative, ...
+            suffix_for_embryo, ...
+            time_index);
+        nNuclei = size(unique(combined_image1),1) - 1;
+   
+        combined_image2 = read_embryo_frame(name_of_embryo, ...
+            suffix_for_embryo_alternative, ...
+            suffix_for_embryo, ...
+            time_index_plus_1);
     end
 
     % STORE MESHGRID
@@ -388,7 +358,7 @@ while time_index_index <= lastTime
             nucleus_pts = find(combined_image2(:)==second_smallest_id); 
             combined_image2(nucleus_pts) = 0;
         end % end of if bSmall
-        if nRerun < 1;
+        if nRerun < 1
             nRerun = nRerun + 1;
             disp('rerunning');
         else
