@@ -4,16 +4,16 @@ function [] = PrecomputeRegistrationTransforms(  )
 %% User Inputs
 verbosemode = 0;  % show the plots of registration
 firstTime = 1; % should start with 1 not 0
-lastTime =  10; % last time for registration - you should have one more frame than this
+lastTime =  3; % last time for registration - you should have one more frame than this
 
-data_path = '/Users/lbrown/Documents/PosfaiLab/3DStardist/GataNanog/HaydenJan22Set/';
-name_of_embryo =  'Stardist3D_klbOut_Cam_Long_';
+data_path = './test/tif/';
+name_of_embryo =  'klbOut_Cam_Long_';
 name_of_embryo = strcat(data_path,name_of_embryo);
-suffix_for_embryo = '.tif';
+suffix_for_embryo = '.lux.label.tif';
 suffix_for_embryo_alternative = '.lux_SegmentationCorrected.tif';
 
-addpath(genpath('/Users/lbrown/Documents/PosfaiLab/Registration/HaydensReg2022/CPD2/core'));
-addpath(genpath('/Users/lbrown/Documents/PosfaiLab/Registration/HaydensReg2022/CPD2/data'));
+addpath(genpath('./CPD2/core'));
+addpath(genpath('./CPD2/data'));
 
 maxItr = 8;
 nRerun = 0;
@@ -21,6 +21,7 @@ poolsize = 8;
 
 time_str = strcat(string(firstTime),'_',string(lastTime));
 RegistrationFileName = strcat(data_path,'transforms', time_str,'.mat');
+RegistrationFileNameJSON = strcat(data_path,'transforms', time_str,'.json');
  
 G_based_on_nn = graph;
 % Voxel size before making isotropic
@@ -376,6 +377,12 @@ end
 
 % Save vector of transformations...
 save(RegistrationFileName, 'store_registration');
+% output for python reading
+jH = jsonencode(store_registration);
+fid = fopen(RegistrationFileNameJSON,'w');
+fprintf(fid, jH);
+fclose(fid);
+
 % add time range in file name
 save(strcat(data_path,'matches',time_str,'.mat'),'store_matches');
 save(strcat(data_path,'iou_table',time_str,'.mat'),'store_iou_table');
