@@ -2,6 +2,9 @@
 # start with label image
 # create new label image at higher resolution
 
+# example:
+# python GeometricInterpolation.py -l /Users/lbrown/Documents/PosfaiLab/3DStardist/Fate2/Stardist3D_klbOut_Cam_Long_00160.tif -o /Users/lbrown/Documents/PosfaiLab/3DStardist/Fate2/
+
 import os
 import cv2
 import numpy as np
@@ -11,15 +14,7 @@ import math
 import h5py
 import argparse
 
-# at most 7 at a time
-# only 4 per node
-# we have 7 tasks
-#sbatch -n 7 --ntasks-per-node 4 disBatch TaskFile.txt
 
-#LD_LIBRARY_PATH=/mnt/home/lbrown/maskrcnn/Make3DFrom2d/pyklb/build/lib/
-#export LD_LIBRARY_PATH
-
-# use 2D masks to make 3D labeled image
 
 
 # one tube per label - just gives you the mask index
@@ -129,46 +124,30 @@ def GetMaskContourPointsForInterpolation(imask,N,ilabel,islice,h,w,label_img):
     #print('incr ',incr,testy,testx)
     return pts
 
-#label_path = '/Users/lbrown/Documents/PosfaiLab/3DCellpose/'
-#label_name = 'BS1_00011_crop_masks.tif'
-
-# python GeometricInterpolation.py -l /Users/lbrown/Documents/PosfaiLab/3DCellpose/
-# python3 GeometricInterpolation.py -l /Users/lbrown/Documents/PosfaiLab/3DStardist/100Cells/F55_184_masks_0001.tiff -o /Users/lbrown/Documents/PosfaiLab/3DStardist/100Cells/
-# /Users/lbrown/Documents/PosfaiLab/3DStardist/100Cells/Stardist3D_saved_again_F55184.tif
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-l', '--label_path', type=str,  default='.',
-                        help='the path of the 3D label images')
+                        help='the path and name of the 3D label images')
     parser.add_argument('-o', '--output_path', type=str,  default='label_path',
                         help='the output path - for 3d label images')
-    parser.add_argument('-s', '--start', type=int,  default=None,
-                        help='start of sequence - integer')
-    parser.add_argument('-e', '--end', type=int,  default=None,
-                        help='end of sequence - integer')
 
     args = parser.parse_args()
+    out_path = args.output_path
+    print('out_path ',out_path)
 
+    label_path = args.label_path
 
-out_path = args.output_path
-print('out_path ',out_path)
+    if not os.path.exists(out_path):
+        os.mkdir(out_path)
 
-label_path = args.label_path
-start_frame = args.start
-end_frame = args.end
+    #label_name = os.path.basename(label_path)
+    label_img = tiff.imread(label_path)
+    print(label_img.shape)
+    # make geometrically interpolated label image at higher resolution
+    new_label_img = InterpolateTubes(label_img, 10)
+    print(new_label_img.shape)
 
-
-if not os.path.exists(out_path):
-    os.mkdir(out_path)
-
-#full_label_name = os.path.join(label_path,label_name)
-label_name = os.path.basename(label_path)
-label_img = tiff.imread(label_path)
-print(label_img.shape)
-# make geometrically interpolated label image at higher resolution
-new_label_img = InterpolateTubes(label_img, 10)
-print(new_label_img.shape)
-
-tiff.imsave(os.path.join(out_path,  label_name[:-4] + '_Interp.tiff'), new_label_img)
+    tiff.imsave(os.path.join(out_path,  label_name[:-4] + '_Interp.tiff'), new_label_img)
 
