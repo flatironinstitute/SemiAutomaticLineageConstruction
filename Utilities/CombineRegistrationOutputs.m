@@ -33,6 +33,14 @@ for i = 150: 199
     transforms.store_registration{i,1} = transforms150_200.store_registration{i,1};
 end
 
+figure;
+hold on;
+ for i=1:199
+     s(i) = transforms.store_registration{i,1}.minSigma;
+ end
+ plot(1:199,s,'LineWidth',4,'Color','b');
+
+
 store_registration = transforms.store_registration;
 save(strcat(data_path,FinalRegistrationName), 'store_registration');
 
