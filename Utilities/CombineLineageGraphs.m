@@ -27,8 +27,14 @@ graph_name2 = 'SecondHalf.mat'
 
 gg1 = load(strcat( graph_path , graph_name1));
 gg2 = load(strcat( graph_path , graph_name2));
-gg1 = gg1.gg1;
-gg2 = gg2.gg2;
+
+%% using example data FirstHalf.mat SecondHalf.mat
+%gg1 = gg1.gg1;
+%gg2 = gg2.gg2;
+
+%% output from Masha's tracker
+gg1 = gg1.G_based_on_nn;
+gg2 = gg2.G_based_on_nn;
 
 figure;
 plot(gg1,'layout','layered');  
