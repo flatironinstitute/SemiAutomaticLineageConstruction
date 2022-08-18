@@ -127,10 +127,11 @@ figure;
 plot(ggboth,'layout','layered');  
 
 %save the new graph
-save(strcat(graph_path,'CombinedGraph.mat'),'ggboth');
+G_based_on_nn = ggboth;
+save(strcat(graph_path,'CombinedGraph.mat'),'G_based_on_nn');
 
 % now make the json version
-jH = jsonencode(ggboth);
+jH = jsonencode(G_based_on_nn);
 json_FileName = strcat('CombinedGraph.json');
 fid = fopen(strcat(graph_path,json_FileName),'w');
 fprintf(fid, jH);
